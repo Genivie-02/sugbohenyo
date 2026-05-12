@@ -1,105 +1,3 @@
-
-class StoryScene extends Phaser.Scene {
-    constructor() { //constructor() is a special method for creating and initializing an object created with a class. In this case, it initializes the StoryScene class.
-        super('StoryScene');
-    }
-
-    preload() {  //load assets (key, path)
-        this.load.image('rajahH_idle', 'assets/rajahH/rajahH.png');   
-        this.load.image('rajahH_walk', 'assets/rajahH/rajahH_walk.png');
-        this.load.image('rajahH_jump', 'assets/rajahH/rajahH_jump.png');
-        this.load.image('bg', 'assets/sky_bg.png');
-        this.load.image('tree', 'assets/trees.png');
-        this.load.image('grass', 'assets/grass.png');
-    }
-
-    create() {
-
-        this.cameras.main.fadeIn(800, 0, 0, 0); //(duration, red, green, blue) 
-        this.dialogues = [ // array of strings that will be displayed as dialogue in the story scene
-            "Before the arrival of colonizers, Cebu was a thriving and peaceful island nation...",
-            "Its people lived in organized communities led by local rulers called Datus.",            
-            "The seas were their highways, and boats carried them across vast waters.",            
-            "Cebu became a center of trade, connecting China, India, Arabia, and neighboring islands.",            
-            "Gold, spices, silk, and pottery flowed through its busy ports.",            
-            "Foreign traders were welcomed with respect and fairness.",            
-            "But beyond the wealth of trade, the people of Cebu lived with strong culture and unity..."
-        ];
-
-        this.index = 0; // keeps track of the current dialogue index being displayed
-        this.charIndex = 0; // keeps track of the current letter index being displayed in the current dialogue line
-        this.typingSpeed = 30; // speed of typing effect in milliseconds (lower is faster)
-        this.isTyping = false; 
-
-
-        this.add.image(208, 132, 'bg').setScale(0.3); // (x, y, key) 
-        this.add.image(255, 140, 'tree').setScale(0.253);
-
-
-        this.text = this.add.text(10, 200, '', { // (x, y, text, style)
-            fontSize: '18px',
-            fill: '#000000',
-            wordWrap: { width: 490 }
-        });
-
-        this.hint = this.add.text(10, 250, 'SPACE / CLICK', {
-            fontSize: '14px',
-            fill: '#000000'
-        });
-
-
-        this.input.keyboard.on('keydown-SPACE', () => this.next()); // (event, callback)
-        this.input.keyboard.on('keydown-RIGHT', () => this.next());
-        this.input.on('pointerdown', () => this.next());
-
-        this.showLine(); // starts the process of showing the first line of dialogue with a typing effect
-        this.input.keyboard.on('keydown-ESC', () => {
-            window.location.href = '../adventure.html';
-        });
-    }
-
-    showLine() {
-        this.text.setText('');
-        this.charIndex = 0;
-        this.isTyping = true;
-        this.current = this.dialogues[this.index];
-
-        this.time.addEvent({
-            delay: this.typingSpeed,
-            loop: true,
-            callback: () => {
-                this.text.text += this.current[this.charIndex];
-                this.charIndex++;
-
-                if (this.charIndex >= this.current.length) {
-                    this.isTyping = false;
-                    this.time.removeAllEvents(); // stops the typing effect once the entire line has been displayed
-                }
-            }
-        });
-    }
-
-    next() {
-        if (this.isTyping) {
-            this.text.setText(this.current); // immediately displays the full current line of dialogue if the player tries to advance while the typing effect is still in progress
-            this.isTyping = false;
-            this.time.removeAllEvents(); // stops the typing effect
-            return;
-        }
-
-        this.index++;
-
-        if (this.index >= this.dialogues.length) {
-            this.cameras.main.fadeOut(800); 
-            this.cameras.main.once('camerafadeoutcomplete', () => { // (event, callback)
-                this.scene.start('MainScene');
-            });
-        } else {
-            this.showLine();
-        }
-    }
-}
-
 class MainScene extends Phaser.Scene {
     constructor() {
         super('MainScene');
@@ -109,21 +7,65 @@ class MainScene extends Phaser.Scene {
         this.load.image('rajahH_idle', 'assets/rajahH/rajahH.png');
         this.load.image('rajahH_walk', 'assets/rajahH/rajahH_walk.png');
         this.load.image('rajahH_jump', 'assets/rajahH/rajahH_jump.png');
-        this.load.image('bg', 'assets/sky_bg.png');
-        this.load.image('tree', 'assets/trees.png');
-        this.load.image('grass', 'assets/grass.png');
-        this.load.image('xs_log', 'assets/xs_log.png');
-        this.load.image('s_log', 'assets/s_log.png');
-        this.load.image('med_log', 'assets/med_log.png');
-        this.load.image('l_log', 'assets/l_log.png');
-        this.load.image('stack_log', 'assets/stack_log.png');
-        this.load.image('kubo', 'assets/bahaykubo.png');
-        this.load.image('spice', 'assets/spice.png');
-        this.load.image('gold', 'assets/gold.png');
-        this.load.image('honey', 'assets/honey.png');
-        this.load.image('pearl', 'assets/pearl.png');
-        this.load.image('enemy_walk1', 'assets/soldier/left_enemy.png');
-        this.load.image('enemy_walk2', 'assets/soldier/right_enemy.png');
+        this.load.image('bg', 'assets/moalboal/bg_moalboal.png');
+        this.load.image('grass', 'assets/moalboal/sandground.png');
+        this.load.image('xs_log', 'assets/moalboal/fishlog.png');
+        this.load.image('s_log', 'assets/moalboal/fishlog.png');
+        this.load.image('med_log', 'assets/moalboal/fishlog.png');
+        this.load.image('l_log', 'assets/moalboal/fishlog.png');
+        this.load.image('falls', 'assets/moalboal/coral.png');
+        this.load.image('banig', 'assets/moalboal/shell.png');
+        this.load.image('enemy', 'assets/moalboal/sardine.png');
+        this.load.image('enemy_walk1', 'assets/moalboal/sardine.png');
+        this.load.image('enemy_walk2', 'assets/moalboal/sardine.png');
+    }
+
+    showDialogue() {
+        this.dialogText.setText('');
+        this.charIndex = 0;
+        this.isTyping = true;
+
+        this.currentLine = this.dialogues[this.dialogIndex];
+
+        this.typingEvent = this.time.addEvent({
+            delay: 30,
+            loop: true,
+            callback: () => {
+                this.dialogText.text += this.currentLine[this.charIndex];
+                this.charIndex++;
+
+                if (this.charIndex >= this.currentLine.length) {
+                    this.isTyping = false;
+                    this.time.removeAllEvents();
+                }
+            }
+        });
+    }
+
+    nextDialogue() {
+        if (!this.gameStarted) {
+            if (this.isTyping) {
+                this.dialogText.setText(this.currentLine);
+                this.isTyping = false;
+                this.time.removeAllEvents();
+                return;
+            }
+
+            this.dialogIndex++;
+
+            if (this.dialogIndex >= this.dialogues.length) {
+                this.dialogBox.setVisible(false);
+                this.dialogText.setVisible(false);
+                this.hintText.setVisible(false);
+
+                this.input.keyboard.enabled = true;
+
+                this.physics.resume(); // resume physics
+                this.gameStarted = true;
+            } else {
+                this.showDialogue();
+            }
+        }
     }
 
     enterHouse(player, zone) {
@@ -148,42 +90,22 @@ class MainScene extends Phaser.Scene {
         });
 
         this.cameras.main.once('camerafadeoutcomplete', () => { // (event, callback)
-            this.scene.start('EndScene'); 
+            this.scene.stop(); // stop MainScene
+            this.scene.start('EndScene');
         });
     }
 
-    collectSpice(player, spice) {
-        spice.disableBody(true, true);
 
-        this.score += 10;
-        this.scoreText.setText('Score: ' + this.score);
-    }
-
-    collectGold(player, gold) {
-        gold.disableBody(true, true);
-
-        this.score += 25;
-        this.scoreText.setText('Score: ' + this.score);
-    }
-
-    collectHoney(player, honey) {
-        honey.disableBody(true, true);
+    collectBanig(player, banig) {
+        banig.disableBody(true, true);
 
         this.score += 15;
-        this.scoreText.setText('Score: ' + this.score);
-    }
-
-    collectPearl(player, pearl) {
-        pearl.disableBody(true, true);
-
-        this.score += 30;
         this.scoreText.setText('Score: ' + this.score);
     }
 
     hitEnemy(player, enemy) {
         this.cameras.main.shake(100, 0.01);
 
-        // prevent rapid multiple hits (IMPORTANT)
         if (this.hitCooldown) return;
         this.hitCooldown = true;
 
@@ -196,7 +118,7 @@ class MainScene extends Phaser.Scene {
 
         this.livesText.setText('Lives: ' + this.lives);
 
-        // optional: also reduce score
+        // reduce score
         this.score = Math.max(0, this.score - 20);
         this.scoreText.setText('Score: ' + this.score);
 
@@ -207,78 +129,71 @@ class MainScene extends Phaser.Scene {
             player.setVelocityX(200);
         }
 
-        // 💀 GAME OVER
+        // GAME OVER
         if (this.lives <= 0) {
+             this.scene.stop(); // stop MainScene itself
             this.scene.start('GameOverScene');
         }
     }
 
     create() {
+        this.physics.resume();
+        this.input.keyboard.enabled = true;
         this.score = 0;
         this.lives = 3;
         this.hitCooldown = false;
         this.entering = false;
+        this.gameStarted = false;
+        
         
         const platformData = [ // array of objects that define the position, key, and size of each platform in the level
 
             // =====================
-            // STARTING AREA (easy)
+            // START AREA (very easy)
             // =====================
-            { x: 300, y: 180, key: 'med_log', w: 53, h: 12 }, // (x, y, key, width, height) 
-            { x: 360, y: 120, key: 's_log', w: 34, h: 12 },
-            { x: 410, y: 180, key: 'med_log', w: 53, h: 12},
-
-            // small jump intro
-            { x: 770, y: 242, key: 'l_log', w: 63, h: 12 },
-            { x: 775, y: 230, key: 'med_log', w: 53, h: 12 },
-            { x: 780, y: 218, key: 's_log', w: 34, h: 12 },
-            { x: 785, y: 206, key: 'xs_log', w: 24, h: 12 },
+            { x: 250, y: 190, key: 'l_log', w: 63, h: 12 },
+            { x: 360, y: 130, key: 's_log', w: 34, h: 12 },
 
             // =====================
-            // GAP SECTION
+            // FIRST GAP (teaches jump timing)
             // =====================
-            { x: 880, y: 142, key: 'l_log', w: 63, h: 12 },
+            { x: 780, y: 190, key: 'l_log', w: 63, h: 12 },
 
-            // floating challenge
-            { x: 980, y: 100, key: 'med_log', w: 53, h: 12 },
-
-            // =====================
-            // MID GAME (slightly harder)
-            // =====================
-            { x: 1100, y: 180, key: 'l_log', w: 63, h: 12 },
-            { x: 1260, y: 140, key: 's_log', w: 34, h: 12 },
-
-            // stacked climb section
-            { x: 1370, y: 242, key: 'l_log', w: 63, h: 12 },
-            { x: 1365, y: 230, key: 'med_log', w: 53, h: 12 },
-            { x: 1360, y: 218, key: 's_log', w: 34, h: 12 },
-            { x: 1355, y: 206, key: 'xs_log', w: 24, h: 12 },
+            // floating stepping stones
+            { x: 900, y: 150, key: 's_log', w: 34, h: 12 },
 
             // =====================
-            // LONG JUMP AREA
+            // MID SECTION (zig-zag movement)
             // =====================
-            { x: 1500, y: 200, key: 'l_log', w: 63, h: 12 },
-            { x: 1580, y: 170, key: 'med_log', w: 53, h: 12 },
-            { x: 1690, y: 100, key: 'xs_log', w: 24, h: 12 }
+            { x: 1120, y: 200, key: 'l_log', w: 63, h: 12 },
+            { x: 1280, y: 200, key: 'l_log', w: 63, h: 12 },
+            { x: 1380, y: 140, key: 's_log', w: 34, h: 12 },
+
+            // reward platform
+            { x: 1600, y: 130, key: 'med_log', w: 53, h: 12 },
         ];
-        for (let x = 0; x < 3000; x += 155) { // creates a repeating background by adding multiple instances of the 'bg' image across the level, spaced 155 pixels apart
-            let bg = this.add.image(x, 155, 'bg'); // (x, y, key) 
-            bg.setScale(.29); // (scale) scales the background image to fit the desired size for the level, ensuring it covers the entire area without distortion
+        for (let x = 0; x < 3000; x += 325) { // creates a repeating background by adding multiple instances of the 'bg' image across the level, spaced 155 pixels apart
+            let bg = this.add.image(x, 145, 'bg'); // (x, y, key) 
+            bg.setScale(5); // (scale) scales the background image to fit the desired size for the level, ensuring it covers the entire area without distortion
         }
 
-        for (let x = 0; x < 3000; x += 250) {
-            let tree = this.add.image(x, 210, 'tree');
-            tree.setScale(.13);
+        let ground = this.physics.add.staticGroup();
+        for (let x = 0; x < 600; x += 64) {
+            let tile = ground.create(x, 270, 'grass');
+            tile.setScale(2).refreshBody();
         }
 
-        let ground = this.physics.add.staticGroup(); // creates a static physics group called 'ground' that will be used to create the ground tiles for the level, allowing the player to collide with them and walk on them
-        for (let x = 0; x < 3000; x += 128) {
-            let tile = ground.create(x, 270, 'grass'); // (x, y, key)
-            tile.setScale(.15).refreshBody(); // .refreshbody() updates the physics body of the tile after scaling, ensuring that the collision detection works correctly with the new size of the tile.
-            tile.refreshBody();
+        for (let x = 750; x < 1400; x += 64) {
+            let tile = ground.create(x, 270, 'grass');
+            tile.setScale(2).refreshBody();
         }
 
-        this.scoreText = this.add.text(30, 100, 'Use ->, <- to move', {
+        for (let x = 1650; x < 3000; x += 64) {
+            let tile = ground.create(x, 270, 'grass');
+            tile.setScale(2).refreshBody();
+        }
+
+        this.instrucText = this.add.text(30, 100, 'Use ->, <- to move', {
             fontSize: '16px',
             fill: '#000000'
         })
@@ -304,48 +219,54 @@ class MainScene extends Phaser.Scene {
             platform.body.setOffset(5, 0);
         });
 
-        this.spice = this.physics.add.group({
-            allowGravity: false
-        });
-        this.gold = this.physics.add.group({
-            allowGravity: false
-        });
-        this.honey = this.physics.add.group({
-            allowGravity: false
-        });
-        this.pearl = this.physics.add.group({
+        this.banig = this.physics.add.group({
             allowGravity: false
         });
 
-        this.spice.create(360, 100, 'spice').setScale(0.07);;
-        this.spice.create(900, 123, 'spice').setScale(0.07);
-        this.spice.create(990, 80, 'spice').setScale(0.07);
-        this.gold.create(990, 230, 'gold').setScale(0.12);
-        this.honey.create(1260, 120, 'honey').setScale(0.12);
-        this.pearl.create(1690, 80, 'pearl').setScale(0.12);
+        this.banig.create(360, 100, 'banig').setScale(0.45);;
+        this.banig.create(900, 123, 'banig').setScale(0.45);
+        this.banig.create(990, 80, 'banig').setScale(0.45);
+        this.banig.create(990, 230, 'banig').setScale(0.45);
+        this.banig.create(1260, 120, 'banig').setScale(0.45);
+        this.banig.create(1580, 100, 'banig').setScale(0.45);
 
         this.enemies = this.physics.add.group();
 
-        let enemy = this.enemies.create(900, 200, 'enemy_walk1');
-        enemy.setScale(0.1);
-        enemy.setVelocityX(-90);
-        enemy.minX = 950;
-        enemy.maxX = 1030;
+        let enemy1 = this.enemies.create(600, 220, 'enemy');
+        enemy1.setScale(1);
+        enemy1.setVelocityX(-90);
+        enemy1.minX = 550;
+        enemy1.maxX = 680;
 
-        this.player = this.physics.add.sprite(20, 80, 'rajahH_idle'); //(x, y, key)
+        let enemy2 = this.enemies.create(900, 220, 'enemy');
+        enemy2.setScale(1);
+        enemy2.setVelocityX(-90);
+        enemy2.minX = 950;
+        enemy2.maxX = 1030;
+
+        let enemy3 = this.enemies.create(1700, 220, 'enemy');
+        enemy3.setScale(1);
+        enemy3.setVelocityX(-90);
+        enemy3.minX = 1650;
+        enemy3.maxX = 1850;
+        
+
+        this.player = this.physics.add.sprite(20, 130, 'rajahH_idle'); //(x, y, key)
         this.player.setScale(.09);
         this.player.setCollideWorldBounds(true);
+        this.physics.world.setBoundsCollision(true, true, true, false);
+
+        this.falls = this.physics.add.staticImage(1934, 252, 'falls');
+        this.falls.setOrigin(0.5, 1);   // anchor to bottom-center
+        this.falls.setScale(3);
+        this.falls.refreshBody();
 
         this.physics.add.collider(this.player, ground); // (object1, object2)
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.collider(this.enemies, ground); // (object1, object2)
         this.physics.add.collider(this.enemies, this.platforms); // (object1, object2)
 
-        this.kubo = this.physics.add.staticImage(1950, 198, 'kubo');
-        this.kubo.setScale(0.2);
-        this.kubo.refreshBody();
-
-        this.houseZone = this.add.zone(1850, 240, 40, 80); // (x, y, width, height) 
+        this.houseZone = this.add.zone(1840, 240, 40, 80); // (x, y, width, height) 
         this.physics.world.enable(this.houseZone); // enables physics for the houseZone, allowing it to detect overlaps
         this.houseZone.body.setAllowGravity(false); // prevents the houseZone from being affected by gravity, ensuring it remains stationary
         this.houseZone.body.moves = false;
@@ -358,6 +279,38 @@ class MainScene extends Phaser.Scene {
             this
         );
 
+        this.dialogues = [
+            "Moalboal is a world-renowned peninsula on the southwestern coast of Cebu, celebrated as a global sanctuary for marine life.",
+            "A destination where the deep blue sea meets vibrant coral walls,",
+            "and is celebrated annually through Kagasangan Festival.",
+            "The town's identity is intrinsically linked to the ocean, where they pay tributes to the coral reefs that sustain the community.",
+            "Your journey follows these historic path through Moalboal, where the ocean leads you to Kagasangan."
+        ];
+
+        this.dialogIndex = 0;
+        this.charIndex = 0;
+        this.isTyping = false;
+
+        this.dialogBox = this.add.rectangle(256, 240, 500, 80, 0xffffff)
+            .setStrokeStyle(2, 0x000000) // border
+            .setScrollFactor(0);
+        this.dialogText = this.add.text(20, 210, '', {
+            fontSize: '16px',
+            fill: '#000',
+            wordWrap: { width: 470 }
+        }).setScrollFactor(0);
+
+        this.hintText = this.add.text(20, 260, 'SPACE to continue', {
+            fontSize: '12px',
+            fill: '#000'
+        }).setScrollFactor(0);
+
+        this.input.keyboard.on('keydown-SPACE', () => this.nextDialogue());
+        this.input.keyboard.on('keydown-RIGHT', () => this.nextDialogue());
+        this.input.on('pointerdown', () => this.nextDialogue());
+
+        this.showDialogue();
+
         this.cursors = this.input.keyboard.createCursorKeys();
 
         this.walkFrames = ['rajahH_idle', 'rajahH_walk'];
@@ -366,12 +319,10 @@ class MainScene extends Phaser.Scene {
 
         this.enemyFrames = ['enemy_walk1', 'enemy_walk2'];
 
-        this.physics.add.overlap(this.player, this.spice, this.collectSpice, null, this); // allows the player to collect spice items by overlapping with them, triggering the collectSpice callback function when the overlap occurs
-        this.physics.add.overlap(this.player, this.gold, this.collectGold, null, this);
-        this.physics.add.overlap(this.player, this.honey, this.collectHoney, null, this);
-        this.physics.add.overlap(this.player, this.pearl, this.collectPearl, null, this);
+        this.physics.add.overlap(this.player, this.banig, this.collectBanig, null, this); // allows the player to collect banig items by overlapping with them, triggering the collectBanig callback function when the overlap occurs
         this.physics.add.overlap(this.player, this.enemies, this.hitEnemy, null, this);
-        this.physics.world.setBounds(0, 0, 2000, 288, true, true, true, true); // (x, y, width, height, checkLeft, checkRight, checkUp, checkDown) 
+        this.physics.world.setBounds(0, 0, 2000, 288);
+        this.physics.world.setBoundsCollision(true, true, true, false); // (x, y, width, height, checkLeft, checkRight, checkUp, checkDown) 
         this.cameras.main.setBounds(0, 0, 2000, 288); // (x, y, width, height)
         this.cameras.main.setDeadzone(256, 288); // (width, height)
         this.maxReachedX = this.player.x; // keeps track of the furthest horizontal position the player has reached, used to prevent the camera from moving back to areas the player has already passed
@@ -382,6 +333,12 @@ class MainScene extends Phaser.Scene {
     }
 
     update() {
+        if (!this.gameStarted && !this.physics.world.isPaused) {
+            if (this.player.body.blocked.down) {
+                this.physics.pause(); // pause ONLY when grounded
+            }
+        }
+
         this.enemies.children.iterate((enemy) => {
             if (!enemy) return;
 
@@ -411,12 +368,15 @@ class MainScene extends Phaser.Scene {
             }
 
             // flip depending on direction
-            enemy.flipX = enemy.body.velocity.x < 0;
+            enemy.flipX = enemy.body.velocity.x > 0;
         });
         let isMoving = false;
         let cam = this.cameras.main;
         let centerX = cam.scrollX + 256; 
 
+        if (this.player.y > 320) {
+            this.scene.start('GameOverScene');
+        }
         
         if (this.player.x > centerX) { // if the player's horizontal position exceeds the center of the camera's current view, the camera will scroll to follow the player, keeping them centered on the screen as they move to the right
             cam.scrollX = this.player.x - 256;
@@ -487,24 +447,20 @@ class GameOverScene extends Phaser.Scene {
             fill: '#ff0000'
         }).setOrigin(0.5);
 
-        this.add.text(256, 160, "History Changed...", {
-            fontSize: '16px',
-            fill: '#ffff'
-        }).setOrigin(0.5);
-
-        this.add.text(256, 220, "Press SPACE to Restart", {
+        this.add.text(256, 160, "Press SPACE to Restart", {
             fontSize: '14px',
             fill: '#ffffff'
         }).setOrigin(0.5);
 
-        this.add.text(256, 250, "Press ESC to exit", {
+        this.add.text(256, 220, "Press ESC to exit", {
             fontSize: '14px',
             fill: '#ffffff'
         }).setOrigin(0.5);
 
         this.input.keyboard.once('keydown-SPACE', () => {
-            this.scene.stop('MainScene');  
-            this.scene.start('StoryScene');
+            this.scene.stop('MainScene');
+
+            this.scene.start('MainScene');
         });
         this.input.keyboard.on('keydown-ESC', () => {
             window.location.href = '../adventure.html';
@@ -520,7 +476,7 @@ class EndScene extends Phaser.Scene {
     create() {
         this.cameras.main.fadeIn(800, 0, 0, 0);
 
-        this.add.text(256, 120, "Level 1 Complete", {
+        this.add.text(256, 120, "Moalboal Level Complete", {
             fontSize: '32px',
             fill: '#ffffff'
         }).setOrigin(0.5);
@@ -541,8 +497,9 @@ class EndScene extends Phaser.Scene {
         }).setOrigin(0.5);
 
         this.input.keyboard.once('keydown-SPACE', () => {
-            this.scene.stop('MainScene');  
-            this.scene.start('StoryScene');
+            this.scene.stop('MainScene');
+
+            this.scene.start('MainScene');
         });
         this.input.keyboard.on('keydown-ESC', () => {
             window.location.href = '../adventure.html';
@@ -572,7 +529,7 @@ const config = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
-    scene: [StoryScene, MainScene, EndScene, GameOverScene]
+    scene: [MainScene, EndScene, GameOverScene]
 };
 
 const game = new Phaser.Game(config);

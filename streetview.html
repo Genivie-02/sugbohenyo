@@ -4,11 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Historical Landmarks of Cebu — Brochure</title>
-    <link rel="stylesheet" href="streetview.css" />
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+    <link rel="stylesheet" href="/sugbohenyo/streetview.css" />
   </head>
   <body>
     <div id="sidebar"></div>
-
     <main class="page">
       <section class="sheet" aria-label="Cebu heritage brochure">
         <header class="top">
@@ -18,10 +18,10 @@
 
           <div class="top__grid">
             <div class="top__copy">
-              <h1 class="title-street">Historical Landmarks of Cebu</h1>
+              <h1 class="landmark-title">Historical Landmarks of Cebu</h1>
               <p class="lede">
                 Cebu—often called the “Cradle of Christianity”—is packed with heritage sites that shaped Philippine history.
-                Here are five landmark stops with quick facts and Street View previews.
+                Here are five landmark stops with quick facts, Google Street View links, and an interactive Google Maps embed.
               </p>
 
               <div class="atglance" aria-label="At a glance">
@@ -35,12 +35,12 @@
                 </div>
                 <div class="stat">
                   <div class="stat__k">Preview</div>
-                  <div class="stat__v">Street View</div>
+                  <div class="stat__v">Street-level</div>
                 </div>
               </div>
 
               <p class="hint">
-                Tip: Open the Street View link on each card to preview the location before your trip.
+                Tip: Use the "Street View" button on each card to open Google Street View for that landmark directly inside the page.
               </p>
             </div>
 
@@ -48,8 +48,8 @@
               <div class="mosaic">
                 <div class="mosaic__img">
                   <picture>
-                    <source srcset="./images/fort1.png" type="image/png" />
-                    <img alt="Fort San Pedro" loading="lazy" src="./images/fort1.png" />
+                    <source srcset="/sugbohenyo/images/fort1.png" type="image/png" />
+                    <img alt="Fort San Pedro" loading="lazy" src="/sugbohenyo/images/fort1.png" />
                   </picture>
                 </div>
                 <div class="mosaic__mid">
@@ -58,8 +58,8 @@
                 </div>
                 <div class="mosaic__img">
                   <picture>
-                    <source srcset="./images/mag2.png" type="image/png" />
-                    <img alt="Magellan's Cross" loading="lazy" src="./images/mag2.png" />
+                    <source srcset="/sugbohenyo/images/mag2.png" type="image/png" />
+                    <img alt="Magellan's Cross" loading="lazy" src="/sugbohenyo/images/mag2.png" />
                   </picture>
                 </div>
               </div>
@@ -67,8 +67,27 @@
           </div>
         </header>
 
+        <section class="viewer" aria-label="3D map viewer">
+          <div class="viewer__intro">
+            <div>
+              <div class="viewer__eyebrow">Interactive Preview</div>
+              <h2 class="viewer__title">3D Map</h2>
+              <p class="viewer__text">
+                A 3D map centered on Cebu's heritage sites. Click any card's Map button to fly to a landmark.
+              </p>
+            </div>
+            <div class="viewer__panel" id="landmark-panel">
+              <div class="viewer__label">Selected landmark</div>
+              <h3 class="viewer__name">Fort San Pedro</h3>
+              <p class="viewer__meta">Cebu City</p>
+              <p class="viewer__desc">Tap any "Map" button below to fly to a landmark. The "Street View" button opens Google Street View inside the page.</p>
+            </div>
+          </div>
+          <div id="map" class="map" role="img" aria-label="Interactive 3D map of Cebu heritage landmarks"></div>
+        </section>
+
         <section class="cards" aria-label="Landmarks list">
-          <article class="card">
+          <article class="card" data-name="Fort San Pedro" data-place="Cebu City" data-lng="123.9059101" data-lat="10.2921803" data-image="/sugbohenyo/images/fort1.png">
             <div class="card__head">
               <div class="card__num">01</div>
               <h2 class="card__title">Fort San Pedro <span class="card__place">(Cebu City)</span></h2>
@@ -76,8 +95,8 @@
             <div class="card__body">
               <div class="media">
                 <picture>
-                  <source srcset="./images/fort1.png" type="image/png" />
-                  <img alt="Fort San Pedro" loading="lazy" src="./images/fort1.png" />
+                  <source srcset="/sugbohenyo/images/fort1.png" type="image/png" />
+                  <img alt="Fort San Pedro" loading="lazy" src="/sugbohenyo/images/fort1.png" />
                 </picture>
               </div>
               <p class="p">
@@ -93,12 +112,15 @@
               </p>
             </div>
             <div class="card__foot">
-              <a class="btn" href="https://www.google.com/maps/@10.2921803,123.9059101,3a,75y,11.11h,92.73t/data=!3m6!1e1!3m4!1sgtUm4kDCSK3WTDnEqbeT-A!2e0!7i16384!8i8192?entry=ttu">Street View</a>
-              <div class="coords"><strong>Coordinates:</strong> 10.2887, 123.9035</div>
+              <div class="card__actions">
+                <button class="btn js-open-streetview" type="button">Open Street View</button>
+                <button class="btn btn--ghost js-focus-map" type="button">Map</button>
+              </div>
+              <div class="coords"><strong>Coordinates:</strong> 10.2921803, 123.9059101</div>
             </div>
           </article>
 
-          <article class="card">
+          <article class="card" data-name="Basilica Minore del Santo Niño" data-place="Cebu City" data-lng="123.9025019" data-lat="10.2940225" data-image="/sugbohenyo/images/stnino1.png">
             <div class="card__head">
               <div class="card__num">02</div>
               <h2 class="card__title">Basilica Minore del Santo Niño <span class="card__place">(Cebu City)</span></h2>
@@ -106,8 +128,8 @@
             <div class="card__body">
               <div class="media">
                 <picture>
-                  <source srcset="./images/stnino1.png" type="image/png" />
-                  <img alt="Basilica Minore del Santo Niño" loading="lazy" src="./images/stnino1.png" />
+                  <source srcset="/sugbohenyo/images/stnino1.png" type="image/png" />
+                  <img alt="Basilica Minore del Santo Niño" loading="lazy" src="/sugbohenyo/images/stnino1.png" />
                 </picture>
               </div>
               <p class="p">
@@ -123,12 +145,15 @@
               </p>
             </div>
             <div class="card__foot">
-              <a class="btn" href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=10.2940225,123.9025019">Street View</a>
+              <div class="card__actions">
+                <button class="btn js-open-streetview" type="button">Open Street View</button>
+                <button class="btn btn--ghost js-focus-map" type="button">Map</button>
+              </div>
               <div class="coords"><strong>Coordinates:</strong> 10.2940225, 123.9025019</div>
             </div>
           </article>
 
-          <article class="card">
+          <article class="card" data-name="Magellan's Cross" data-place="Cebu City" data-lng="123.901869" data-lat="10.293419" data-image="/sugbohenyo/images/mag2.png">
             <div class="card__head">
               <div class="card__num">03</div>
               <h2 class="card__title">Magellan’s Cross <span class="card__place">(Cebu City)</span></h2>
@@ -136,8 +161,8 @@
             <div class="card__body">
               <div class="media">
                 <picture>
-                  <source srcset="./images/mag2.png" type="image/png" />
-                  <img alt="Magellan’s Cross" loading="lazy" src="./images/mag2.png" />
+                  <source srcset="/sugbohenyo/images/mag2.png" type="image/png" />
+                  <img alt="Magellan’s Cross" loading="lazy" src="/sugbohenyo/images/mag2.png" />
                 </picture>
               </div>
               <p class="p">
@@ -151,12 +176,15 @@
               </p>
             </div>
             <div class="card__foot">
-              <a class="btn" href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=10.293419,123.901869">Street View</a>
+              <div class="card__actions">
+                <button class="btn js-open-streetview" type="button">Open Street View</button>
+                <button class="btn btn--ghost js-focus-map" type="button">Map</button>
+              </div>
               <div class="coords"><strong>Coordinates:</strong> 10.293419, 123.901869</div>
             </div>
           </article>
 
-          <article class="card">
+          <article class="card" data-name="Mactan Shrine" data-place="Lapu-Lapu City" data-lng="123.9488" data-lat="10.3127" data-image="/sugbohenyo/images/mctan1.png">
             <div class="card__head">
               <div class="card__num">04</div>
               <h2 class="card__title">Mactan Shrine <span class="card__place">(Lapu-Lapu City)</span></h2>
@@ -164,8 +192,8 @@
             <div class="card__body">
               <div class="media">
                 <picture>
-                  <source srcset="./images/mctan1.png" type="image/png" />
-                  <img alt="Mactan Shrine" loading="lazy" src="./images/mctan1.png" />
+                  <source srcset="/sugbohenyo/images/mctan1.png" type="image/png" />
+                  <img alt="Mactan Shrine" loading="lazy" src="/sugbohenyo/images/mctan1.png" />
                 </picture>
               </div>
               <p class="p">
@@ -180,12 +208,15 @@
               </p>
             </div>
             <div class="card__foot">
-              <a class="btn" href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=10.3127,123.9488">Street View</a>
+              <div class="card__actions">
+                <button class="btn js-open-streetview" type="button">Open Street View</button>
+                <button class="btn btn--ghost js-focus-map" type="button">Map</button>
+              </div>
               <div class="coords"><strong>Coordinates:</strong> 10.3127, 123.9488</div>
             </div>
           </article>
 
-          <article class="card">
+          <article class="card" data-name="Heritage of Cebu Monument" data-place="Parian, Cebu City" data-lng="123.903639" data-lat="10.29889" data-image="/sugbohenyo/images/heritege.png">
             <div class="card__head">
               <div class="card__num">05</div>
               <h2 class="card__title">Heritage of Cebu Monument <span class="card__place">(Parian, Cebu City)</span></h2>
@@ -193,8 +224,8 @@
             <div class="card__body">
               <div class="media">
                 <picture>
-                  <source srcset="./images/heritege.png" type="image/png" />
-                  <img alt="Heritage of Cebu Monument" loading="lazy" src="./images/heritege.png" />
+                  <source srcset="/sugbohenyo/images/heritege.png" type="image/png" />
+                  <img alt="Heritage of Cebu Monument" loading="lazy" src="/sugbohenyo/images/heritege.png" />
                 </picture>
               </div>
               <p class="p">
@@ -208,15 +239,54 @@
               </p>
             </div>
             <div class="card__foot">
-              <a class="btn" href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=10.29889,123.903639">Street View</a>
+              <div class="card__actions">
+                <button class="btn js-open-streetview" type="button">Open Street View</button>
+                <button class="btn btn--ghost js-focus-map" type="button">Map</button>
+              </div>
               <div class="coords"><strong>Coordinates:</strong> 10.29889, 123.903639</div>
             </div>
           </article>
         </section>
-
       </section>
     </main>
+    <dialog class="streetview-modal" id="streetview-modal">
+      <div class="streetview-modal__dialog">
+        <div class="streetview-modal__head">
+          <div>
+            <div class="streetview-modal__eyebrow">Google Street View</div>
+            <h2 class="streetview-modal__title" id="streetview-title">Landmark viewer</h2>
+            <p class="streetview-modal__meta" id="streetview-meta">Cebu City</p>
+          </div>
+          <button class="streetview-modal__close" id="streetview-close" type="button" aria-label="Close street view popup">Close</button>
+        </div>
 
-    <script src="sidebar.js"></script>
+        <div class="streetview-modal__body">
+          <div class="streetview-modal__viewer">
+            <iframe
+              class="streetview-modal__frame"
+              id="streetview-frame"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Google Street View"
+            ></iframe>
+          </div>
+
+          <aside class="streetview-modal__fallback">
+            <img class="streetview-modal__image" id="streetview-image" alt="" />
+            <p class="streetview-modal__text" id="streetview-status">
+              Loading Google Street View for this landmark.
+            </p>
+            <div class="streetview-modal__actions">
+              <button class="btn btn--ghost" id="streetview-map-btn" type="button">Show on Map</button>
+              <a class="btn" href="#" id="streetview-open-link" rel="noreferrer" target="_blank">Open in Google Maps</a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </dialog>
+    <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+    <script src="/sugbohenyo/sidebar.js"></script>
+    <script src="/sugbohenyo/streetview.js"></script>
   </body>
 </html>
+
